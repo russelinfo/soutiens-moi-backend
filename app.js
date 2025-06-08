@@ -1,38 +1,38 @@
-// server/index.js (ou le nom de votre fichier principal)
+require('dotenv').config();
 
-require('dotenv').config(); // Charge les variables d'environnement
+//Importation des modules nécessaires
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose'); // Pour MongoDB
-const authRoutes = require('./routes/authRoutes'); // Importe vos routes d'authentification
-const subjectsRoutes = require('./routes/subjects'); // <-- NOUVEAU : Importe vos routes de sujets
+const mongoose = require('mongoose');
 
+// Importation de vos routes API
+const authRoutes = require('./routes/authRoutes');
+const subjectsRoutes = require('./routes/subjects');
+
+// 3. Initialisation de l'application Express
 const app = express();
-const PORT = process.env.PORT || 5000;
-
-// Middleware
+// Permet à toutes les origines (*) de faire des requêtes vers votre API.
 app.use(cors());
-app.use(express.json()); // Permet de parser le JSON des requêtes
 
-// Connexion à la base de données MongoDB
-// Utilisez process.env.MONGODB_URI directement, il est déjà chargé par dotenv
+// Middleware pour parser les requêtes au format JSON.
+app.use(express.json());
+
+//Middleware pour parser les requêtes URL-encoded (utile pour les formulaires web).
+app.use(express.urlencoded({ extended: true }));
+
+//Connexion à la base de données MongoDB
 mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('Connecté à MongoDB Atlas'))
-  .catch(err => console.error('Erreur de connexion MongoDB :', err));
+  .then(() => console.log('✅ Connecté à MongoDB Atlas')) // Message de succès
+  .catch(err => console.error('❌ Erreur de connexion MongoDB :', err));
 
-// Routes API
-// Toutes les routes définies dans authRoutes.js commenceront par /api/auth
+//Définition des Routes API
 app.use('/api/auth', authRoutes);
-
-// <-- NOUVEAU : Toutes les routes définies dans subjects.js commenceront par /api/subjects
 app.use('/api/subjects', subjectsRoutes);
 
-// Route de test simple
+//Route de test simple pour vérifier que l'API est accessible
 app.get('/', (req, res) => {
-  res.send('API Backend fonctionne !');
+  res.status(200).send('🚀 API Backend fonctionne ! Bienvenue sur Soutiens-Moi.');
 });
 
-// Lancement du serveur
-app.listen(PORT, () => {
-  console.log(`Serveur backend démarré sur le port ${PORT}`);
-});
+//Export de l'application Express pour Vercel
+module.exports = app;
