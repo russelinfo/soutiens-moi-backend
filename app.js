@@ -27,6 +27,10 @@ app.use('/api/auth', authRoutes);
 // <-- NOUVEAU : Toutes les routes définies dans subjects.js commenceront par /api/subjects
 app.use('/api/subjects', subjectsRoutes);
 
+// <-- NOUVEAU : Toutes les routes définies dans dashboardRoutes.js commenceront par /api/dashboard
+const dashboardRoutes = require('./routes/dashboardRoutes'); // Importe vos routes de tableau de bord
+app.use('/api/dashboard', dashboardRoutes);
+
 // Route de test simple
 app.get('/', (req, res) => {
   res.send('API Backend fonctionne !');
@@ -36,3 +40,4 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Serveur backend démarré sur le port ${PORT}`);
 });
+
