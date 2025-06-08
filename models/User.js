@@ -1,4 +1,5 @@
 // server/models/User.js
+// ASSUREZ-VOUS QUE C'EST BIEN VOTRE FICHIER ACTUEL
 
 const mongoose = require('mongoose');
 
@@ -6,43 +7,43 @@ const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    unique: true, // Le nom d'utilisateur doit être unique
-    trim: true    // Supprime les espaces blancs inutiles
+    unique: true,
+    trim: true
   },
   email: {
     type: String,
     required: true,
-    unique: true, // L'email doit être unique
-    match: [/.+@.+\..+/, 'Veuillez utiliser une adresse email valide'] // Validation de format simple
+    unique: true,
+    match: [/.+@.+\..+/, 'Veuillez utiliser une adresse email valide']
   },
   password: {
     type: String,
     required: true,
-    minlength: 6 // Longueur minimale pour le mot de passe
+    minlength: 6
   },
   role: {
     type: String,
-    enum: ['student', 'tutor'], // Le rôle doit être 'student' ou 'tutor'
-    default: 'student', // Par défaut, un nouvel utilisateur est un étudiant
+    enum: ['student', 'tutor'], // 'student' ou 'tutor'
+    default: 'student',
     required: true
   },
-  level: {
-    type: [String], // Peut être un tableau de niveaux (pour tuteurs) ou un seul niveau (pour étudiants)
-    // Utiliser un tableau permet plus de flexibilité pour les tuteurs qui peuvent enseigner plusieurs niveaux
-    // Ou si un étudiant peut avoir plusieurs "niveaux d'intérêt"
-    // Ou juste String si c'est un seul niveau par défaut. Pour notre cas, un tableau est mieux pour les tuteurs.
-    enum: ['Licence1', 'Licence2', 'Licence3', 'Master1', 'Master2'],
-    required: true // Chaque utilisateur doit avoir au moins un niveau défini
+  level: { // <--- CORRECTION ICI : Type String, pas [String]
+    type: String, // Si le backend attend une seule chaîne pour le niveau
+    enum: ['Licence1', 'Licence2', 'Licence3', 'Master1', 'Master2'], // Pas d'espaces
+    required: true
   },
-  // Champs spécifiques aux tuteurs (optionnels, seront présents si role est 'tutor')
+  // Les champs 'bio' et 'subjects' ne sont pas dans le format Postman fonctionnel,
+  // donc nous les rendons optionnels ou les retirons de la validation requise
   bio: {
     type: String,
     maxlength: 500
+    // required: false par défaut si non spécifié
   },
   subjects: {
-    type: [mongoose.Schema.Types.ObjectId], // <-- CHANGEMENT MAJEUR ICI : type ObjectId
-    ref: 'Subject' // <-- Référence au modèle 'Subject' que nous venons de créer
-    // required: function() { return this.role === 'tutor'; } // Exemple: requis seulement pour les tuteurs
+    type: [mongoose.Schema.Types.ObjectId], // Tableau d'ObjectIds pour les sujets
+    ref: 'Subject',
+    // required: false par défaut si non spécifié. Ou:
+    // required: function() { return this.role === 'tutor'; } // Si vous voulez le rendre requis SEULEMENT pour les tuteurs
   }
 }, {
   timestamps: true
