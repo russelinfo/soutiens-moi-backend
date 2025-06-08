@@ -12,7 +12,14 @@ const subjectsRoutes = require('./routes/subjects');
 // 3. Initialisation de l'application Express
 const app = express();
 // Permet à toutes les origines (*) de faire des requêtes vers votre API.
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:8100'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  // 'Content-Type' est nécessaire pour l'envoi de JSON.
+  // 'Authorization' est nécessaire pour la gestion des tokens
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 
 // Middleware pour parser les requêtes au format JSON.
 app.use(express.json());
