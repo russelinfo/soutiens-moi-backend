@@ -119,7 +119,7 @@ io.on('connection', (socket) => {
 
 // Route de test simple pour vérifier que l'API est accessible
 app.get('/', (req, res) => {
-  res.status(200).send('🚀 API Backend fonctionne ! Bienvenue sur Soutiens-Moi.');
+  res.status(200).send('🚀 API Backend fonctionne ! Bienvenue sur Soutiens-Moi');
 });
 
 // Export de l'application Express ET du serveur HTTP pour Vercel
