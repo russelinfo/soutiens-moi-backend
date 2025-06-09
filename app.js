@@ -61,7 +61,7 @@ const io = new Server(server, { // NOUVEAU: Attache Socket.IO au serveur HTTP
 // Définition des Routes API Express (vos routes existantes)
 app.use('/api/auth', authRoutes);
 app.use('/api/subjects', subjectsRoutes);
-app.use('/api/dashboard', dashboardRoutes); // Utilisation de la route dashboard
+// app.use('/api/dashboard', dashboardRoutes); // Utilisation de la route dashboard
 
 // NOUVELLE ROUTE API REST POUR RÉCUPÉRER L'HISTORIQUE DU CHAT
 app.get('/api/messages', async (req, res) => {
