@@ -12,7 +12,7 @@ const { Server } = require("socket.io"); // NOUVEAU: Importe la classe Server de
 // Importation de vos routes API existantes
 const authRoutes = require('./routes/authRoutes');
 const subjectsRoutes = require('./routes/subjects');
-const dashboardRoutes = require('./routes/dashboardRoutes'); // Assurez-vous que cette route existe si elle est utilisée
+// const dashboardRoutes = require('./routes/dashboardRoutes'); // Assurez-vous que cette route existe si elle est utilisée
 
 // NOUVEAU: Importe le modèle de Message pour le chat
 const Message = require('./models/Message'); // Assurez-vous que ce chemin est correct (ex: ./models/Message.js)
