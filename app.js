@@ -6,6 +6,10 @@ const cors = require('cors');
 const mongoose = require('mongoose'); // Pour MongoDB
 const authRoutes = require('./routes/authRoutes'); // Importe vos routes d'authentification
 const subjectsRoutes = require('./routes/subjects'); // <-- NOUVEAU : Importe vos routes de sujets
+const userRoutes = require('./routes/userRoutes');           // <-- NOUVEAU
+const sessionRoutes = require('./routes/sessionRoutes');   
+
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -30,6 +34,9 @@ app.use('/api/subjects', subjectsRoutes);
 // <-- NOUVEAU : Toutes les routes définies dans dashboardRoutes.js commenceront par /api/dashboard
 const dashboardRoutes = require('./routes/dashboardRoutes'); // Importe vos routes de tableau de bord
 app.use('/api/dashboard', dashboardRoutes);
+
+app.use('/api/sessions', sessionRoutes);   // <-- NOUVEAU : pour la création de sessions
+app.use('/api/users', userRoutes);      
 
 // Route de test simple
 app.get('/', (req, res) => {
